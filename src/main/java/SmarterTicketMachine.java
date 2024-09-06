@@ -8,7 +8,7 @@ package src.main.java;
  * sensible amounts of money, and will only print a ticket
  * if enough money has been input.
  * 
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes and Michael KÃ¶lling
  * @version 2016.02.29
  */
 public class SmarterTicketMachine
