@@ -1,3 +1,5 @@
+package src.main.java;
+
 public class MyTicketMachine {
    // Constants for different ticket prices
    private static final int ADULT_PRICE = 100;  // Adult ticket price in cents
