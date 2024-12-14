@@ -1,3 +1,5 @@
+package src.main.java;
+
 public class DumbTicketMachine {
    // The price of a ticket from this machine.  
    private int price;  
