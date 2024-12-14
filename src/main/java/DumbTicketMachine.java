@@ -1,4 +1,4 @@
-public class DumbTicketMachine {  
+public class DumbTicketMachine {
    // The price of a ticket from this machine.  
    private int price;  
    // The amount of money entered by a customer so far.  
@@ -32,23 +32,31 @@ public class DumbTicketMachine {
   
    // Method to receive an amount of money from a customer  
    public void insertMoney(int amount) {  
-      balance += amount;  
+      if (amount > 0) {
+          balance += amount;  
+      } else {
+          System.out.println("Enter a positive amount.");
+      }
    }  
   
    // Method to print a ticket  
    public void printTicket() {  
-      // Simulate the printing of a ticket.  
-      System.out.println("##################");  
-      System.out.println("# The BlueJ Line");  
-      System.out.println("# Ticket");  
-      System.out.println("# " + price + " cents.");  
-      System.out.println("##################");  
-      System.out.println();  
+      if (balance >= price) {  
+        // Simulate the printing of a ticket.  
+        System.out.println("##################");  
+        System.out.println("# The BlueJ Line");  
+        System.out.println("# Ticket");  
+        System.out.println("# " + price + " cents.");  
+        System.out.println("##################");  
+        System.out.println();  
   
-      // Update the total collected with the balance.  
-      total += balance;  
-      // Clear the balance.  
-      balance = 0;  
+        // Update the total collected with the balance.  
+        total += price;  
+        // Clear the balance after printing the ticket.  
+        balance -= price;  
+      } else {
+          System.out.println("Not enough money. You need " + (price - balance) + " more cents.");
+      }
    }  
   
    // Method to empty the machine  
