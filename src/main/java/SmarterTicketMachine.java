@@ -1,87 +1,70 @@
-package src.main.java;
-
-/**
- * SmarterTicketMachine extends the DumbTicketMachine.
- * This machine includes advanced features such as validating money input.
- */
-public class SmarterTicketMachine {
-
-    private int price;
-    private int balance;
-    private int total;
-
-    /**
-     * Constructor with a custom ticket price.
-     */
-    public SmarterTicketMachine(int cost) {
-        this.price = cost > 0 ? cost : 50; // Default to 50 cents if invalid cost
-        this.balance = 0;
-        this.total = 0;
-    }
-
-    /**
-     * Return the price of a ticket.
-     */
-    public int getPrice() {
-        return price;
-    }
-
-    /**
-     * Return the current balance.
-     */
-    public int getBalance() {
-        return balance;
-    }
-
-    /**
-     * Insert money into the machine.
-     * Ensures only valid amounts are accepted.
-     */
-    public void insertMoney(int amount) {
-        if (amount > 0) {
-            balance += amount;
-        } else {
-            System.out.println("Error: Cannot insert negative or zero money.");
-        }
-    }
-
-    /**
-     * Print a ticket if enough balance is available.
-     * Updates total only for successful transactions.
-     */
-    public void printTicket() {
-        int amountLeftToPay = price - balance;
-        if (amountLeftToPay <= 0) {
-            System.out.println("##################");
-            System.out.println("# Smart Ticket");
-            System.out.println("# Price: " + price + " cents");
-            System.out.println("##################\n");
-
-            total += price;
-            balance -= price;
-        } else {
-            System.out.println("You must insert " + amountLeftToPay + " more cents.");
-        }
-    }
-
-    /**
-     * Empty the machine of collected money.
-     * Resets total and returns the amount emptied.
-     */
-    public int emptyMachine() {
-        int emptiedAmount = total;
-        total = 0;
-        System.out.println("Machine emptied. Total removed: " + emptiedAmount + " cents.");
-        return emptiedAmount;
-    }
-
-    /**
-     * Refund the balance and reset it to zero.
-     */
-    public int refundBalance() {
-        int refund = balance;
-        balance = 0;
-        System.out.println("Refunding " + refund + " cents.");
-        return refund;
-    }
+public class SmarterTicketMachine {  
+   // The price of a ticket from this machine.  
+   private int price;  
+   // The amount of money entered by a customer so far.  
+   private int balance;  
+   // The total amount of money collected by this machine.  
+   private int total;  
+  
+   // Constructor that takes the price as a parameter  
+   public SmarterTicketMachine(int cost) {  
+      price = cost;  
+      balance = 0;  
+      total = 0;  
+   }  
+  
+   // Method to return the price of a ticket  
+   public int getPrice() {  
+      return price;  
+   }  
+  
+   // Method to return the amount of money already inserted for the next ticket  
+   public int getBalance() {  
+      return balance;  
+   }  
+  
+   // Method to receive an amount of money from a customer  
+   public void insertMoney(int amount) {  
+      if (amount > 0) {  
+        balance += amount;  
+      } else {  
+        System.out.println("Use a positive amount rather than: " + amount);  
+      }  
+   }  
+  
+   // Method to print a ticket  
+   public void printTicket() {  
+      int amountLeftToPay = price - balance;  
+      if (balance >= price) {  
+        // Simulate the printing of a ticket.  
+        System.out.println("##################");  
+        System.out.println("# The BlueJ Line");  
+        System.out.println("# Ticket");  
+        System.out.println("# " + price + " cents.");  
+        System.out.println("##################");  
+        System.out.println();  
+  
+        // Update the total collected with the price.  
+        total += price;  
+        // Reduce the balance by the price.  
+        balance -= price;  
+      } else {  
+        System.out.println("You must insert at least: " + amountLeftToPay + " more cents.");  
+      }  
+   }  
+  
+   // Method to refund the balance  
+   public int refundBalance() {  
+      int amountToRefund = balance;  
+      balance = 0;  
+      return amountToRefund;  
+   }  
+  
+   // Method to empty the machine  
+   public int emptyMachine() {  
+      int amountInTotal = total;  
+      total = 0;  
+      System.out.println("The ticket machine has been emptied.");  
+      return amountInTotal;  
+   }  
 }
