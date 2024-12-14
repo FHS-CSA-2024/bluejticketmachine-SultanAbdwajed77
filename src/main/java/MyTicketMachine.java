@@ -1,56 +1,79 @@
-package src.main.java;
-
-/**
- * MyTicketMachine introduces variable ticket pricing.
- * Different discounts (e.g., senior, child) are supported.
- */
-public class MyTicketMachine extends SmarterTicketMachine {
-
-    // Ticket prices
-    private int standardPrice;
-    private int seniorPrice;
-    private int childPrice;
-
-    /**
-     * Constructor for MyTicketMachine.
-     */
-    public MyTicketMachine(int standard, int senior, int child) {
-        super(standard);
-        this.standardPrice = standard;
-        this.seniorPrice = senior;
-        this.childPrice = child;
-    }
-
-    /**
-     * Select ticket type and print based on the user choice.
-     */
-    public void printTicket(String ticketType) {
-        int selectedPrice = switch (ticketType.toLowerCase()) {
-            case "senior" -> seniorPrice;
-            case "child" -> childPrice;
-            default -> standardPrice;
-        };
-
-        if (getBalance() >= selectedPrice) {
-            System.out.println("##################");
-            System.out.println("# My Ticket");
-            System.out.println("# Ticket Type: " + ticketType);
-            System.out.println("# Price: " + selectedPrice + " cents");
-            System.out.println("##################\n");
-
-            setBalance(getBalance() - selectedPrice);
-            setTotal(getTotal() + selectedPrice);
-        } else {
-            System.out.println("You must insert " + (selectedPrice - getBalance()) + " more cents.");
-        }
-    }
-
-    // Setters for balance and total (not included in SmarterTicketMachine)
-    private void setBalance(int balance) {
-        // Assuming we can modify the parent class balance.
-    }
-
-    private void setTotal(int total) {
-        // Assuming we can modify the parent class total.
-    }
+public class MyTicketMachine extends SmarterTicketMachine {  
+   // Define the different ticket types and their prices  
+   public enum TicketType {  
+      ADULT(100),  
+      SENIOR(80),  
+      CHILD(50);  
+  
+      private final int price;  
+  
+      TicketType(int price) {  
+        this.price = price;  
+      }  
+  
+      public int getPrice() {  
+        return price;  
+      }  
+   }  
+  
+   private TicketType currentTicketType;  
+  
+   // Constructor that sets the default ticket type to ADULT  
+   public MyTicketMachine() {  
+      super(0); // Initialize the price to 0, will be updated based on ticket type  
+      currentTicketType = TicketType.ADULT;  
+      updatePrice();  
+   }  
+  
+   // Method to update the price based on the current ticket type  
+   private void updatePrice() {  
+      setPrice(currentTicketType.getPrice());  
+   }  
+  
+   // Method to set the ticket type  
+   public void setTicketType(TicketType type) {  
+      currentTicketType = type;  
+      updatePrice();  
+   }  
+  
+   // Override the printTicket method to print the ticket type  
+   @Override  
+   public void printTicket() {  
+      int amountLeftToPay = getPrice() - getBalance();  
+      if (getBalance() >= getPrice()) {  
+        // Simulate the printing of a ticket.  
+        System.out.println("##################");  
+        System.out.println("# The BlueJ Line");  
+        System.out.println("# " + currentTicketType + " Ticket");  
+        System.out.println("# " + getPrice() + " cents.");  
+        System.out.println("##################");  
+        System.out.println();  
+  
+        // Update total collected with the price.  
+        addTotal(getPrice());  
+        // Reduce the balance by the price.  
+        reduceBalance(getPrice());  
+      } else {  
+        System.out.println("You must insert at least: " + amountLeftToPay + " more cents.");  
+      }  
+   }  
+  
+   // Add methods to update the total and balance  
+   private void addTotal(int amount) {  
+      total += amount;  
+   }  
+  
+   private void reduceBalance(int amount) {  
+      balance -= amount;  
+   }  
+  
+   // Add a method to get the current ticket type  
+   public TicketType getTicketType() {  
+      return currentTicketType;  
+   }  
+  
+   // Add a method to set the price  
+   private void setPrice(int price) {  
+      super.price = price;  
+   }  
 }
