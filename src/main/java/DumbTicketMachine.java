@@ -52,8 +52,10 @@ public class DumbTicketMachine {
    }  
   
    // Method to empty the machine  
-   public void empty() {  
+   public int empty() {  
+      int amountInTotal = total;  
       total = 0;  
       System.out.println("The ticket machine has been emptied.");  
+      return amountInTotal;  
    }  
 }
