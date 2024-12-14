@@ -1,4 +1,4 @@
-public class SmarterTicketMachine {  
+public class SmarterTicketMachine {
    // The price of a ticket from this machine.  
    private int price;  
    // The amount of money entered by a customer so far.  
@@ -28,7 +28,7 @@ public class SmarterTicketMachine {
       if (amount > 0) {  
         balance += amount;  
       } else {  
-        System.out.println("Use a positive amount rather than: " + amount);  
+        System.out.println("Enter a positive amount.");
       }  
    }  
   
