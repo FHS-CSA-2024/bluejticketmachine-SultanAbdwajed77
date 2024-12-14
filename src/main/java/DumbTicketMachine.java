@@ -1,81 +1,86 @@
 package src.main.java;
 
 /**
- * TicketMachine models a naive ticket machine that issues
- * flat-fare tickets.
- * The price of a ticket is specified via the constructor.
- * It is a naive machine in the sense that it trusts its users
- * to insert enough money before trying to print a ticket.
- * It also assumes that users enter sensible amounts.
+ * DumbTicketMachine models a naive ticket machine.
+ * This class assumes users will always input the correct values.
  *
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * @author Modified
+ * @version 2024.12.14
  */
-public class DumbTicketMachine
-{
-    // The price of a ticket from this machine.
-    private int price;
-    // The amount of money entered by a customer so far.
-    private int balance;
-    // The total amount of money collected by this machine.
-    private int total;   
+public class DumbTicketMachine {
+
+    private int price;    // Ticket price
+    private int balance;  // Money inserted by the user
+    private int total;    // Total money collected by the machine
 
     /**
-     * Create a machine that issues tickets of the given price.
-     * Note that the price must be greater than zero, and there
-     * are no checks to ensure this.
+     * Constructor that sets the price to a default value (e.g., 50 cents).
      */
-    public DumbTicketMachine(int cost)
-    {
-        price = cost;
-        balance = 0;
-        total = 0;
+    public DumbTicketMachine() {
+        this.price = 50; // Default price
+        this.balance = 0;
+        this.total = 0;
     }
 
     /**
      * Return the price of a ticket.
      */
-    public int getPrice()
-    {
+    public int getPrice() {
         return price;
     }
 
     /**
-     * Return the amount of money already inserted for the
-     * next ticket.
+     * Return the balance entered so far.
      */
-    public int getBalance()
-    {
+    public int getBalance() {
         return balance;
     }
 
     /**
-     * Receive an amount of money from a customer.
+     * Insert money into the machine.
      */
-    public void insertMoney(int amount)
-    {
-        balance = balance + amount;
+    public void insertMoney(int amount) {
+        if (amount > 0) {
+            balance += amount;
+        } else {
+            System.out.println("You cannot insert negative or zero money.");
+        }
+    }
+
+    /**
+     * Empty the machine of all collected money.
+     * This resets the total to zero.
+     */
+    public void empty() {
+        total = 0; // Clear the total
+        System.out.println("Machine emptied. All collected money removed.");
     }
 
     /**
      * Print a ticket.
-     * Update the total collected and
-     * reduce the balance to zero.
+     * Updates total only if sufficient money is provided.
      */
-    public void printTicket()
-    {
-        // Simulate the printing of a ticket.
-        System.out.println("##################");
-        System.out.println("# The BlueJ Line");
-        System.out.println("# Ticket");
-        System.out.println("# " + price + " cents.");
-        System.out.println("##################");
-        System.out.println();
+    public void printTicket() {
+        if (balance >= price) {
+            System.out.println("##################");
+            System.out.println("# Dumb Ticket");
+            System.out.println("# Ticket Price: " + price + " cents.");
+            System.out.println("##################\n");
 
-        // Update the total collected with the balance.
-        total = total + balance;
-        // Clear the balance.
+            total += price;
+            balance -= price;
+        } else {
+            System.out.println("You need at least " + (price - balance) + " more cents.");
+        }
+    }
+
+    /**
+     * Return the balance as a refund and reset balance to zero.
+     */
+    public int refundBalance() {
+        int refund = balance;
         balance = 0;
-
+        System.out.println("Refunding " + refund + " cents.");
+        return refund;
     }
 }
