@@ -1,104 +1,87 @@
 package src.main.java;
- 
+
 /**
- * TicketMachine models a ticket machine that issues
- * flat-fare tickets.
- * The price of a ticket is specified via the constructor.
- * Instances will check to ensure that a user only enters
- * sensible amounts of money, and will only print a ticket
- * if enough money has been input.
- * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * SmarterTicketMachine extends the DumbTicketMachine.
+ * This machine includes advanced features such as validating money input.
  */
-public class SmarterTicketMachine
-{
-    // The price of a ticket from this machine.
+public class SmarterTicketMachine {
+
     private int price;
-    // The amount of money entered by a customer so far.
     private int balance;
-    // The total amount of money collected by this machine.
     private int total;
 
     /**
-     * Create a machine that issues tickets of the given price.
+     * Constructor with a custom ticket price.
      */
-    public SmarterTicketMachine(int cost)
-    {
-        price = cost;
-        balance = 0;
-        total = 0;
+    public SmarterTicketMachine(int cost) {
+        this.price = cost > 0 ? cost : 50; // Default to 50 cents if invalid cost
+        this.balance = 0;
+        this.total = 0;
     }
 
     /**
-     * @Return The price of a ticket.
+     * Return the price of a ticket.
      */
-    public int getPrice()
-    {
+    public int getPrice() {
         return price;
     }
 
     /**
-     * Return The amount of money already inserted for the
-     * next ticket.
+     * Return the current balance.
      */
-    public int getBalance()
-    {
+    public int getBalance() {
         return balance;
     }
 
     /**
-     * Receive an amount of money from a customer.
-     * Check that the amount is sensible.
+     * Insert money into the machine.
+     * Ensures only valid amounts are accepted.
      */
-    public void insertMoney(int amount)
-    {
-        if(amount > 0) {
-            balance = balance + amount;
-        }
-        else {
-            System.out.println("Use a positive amount rather than: " +
-                               amount);
+    public void insertMoney(int amount) {
+        if (amount > 0) {
+            balance += amount;
+        } else {
+            System.out.println("Error: Cannot insert negative or zero money.");
         }
     }
 
     /**
-     * Print a ticket if enough money has been inserted, and
-     * reduce the current balance by the ticket price. Print
-     * an error message if more money is required.
+     * Print a ticket if enough balance is available.
+     * Updates total only for successful transactions.
      */
-    public void printTicket()
-    {
-        if(balance >= price) {
-            // Simulate the printing of a ticket.
+    public void printTicket() {
+        int amountLeftToPay = price - balance;
+        if (amountLeftToPay <= 0) {
             System.out.println("##################");
-            System.out.println("# The BlueJ Line");
-            System.out.println("# Ticket");
-            System.out.println("# " + price + " cents.");
-            System.out.println("##################");
-            System.out.println();
+            System.out.println("# Smart Ticket");
+            System.out.println("# Price: " + price + " cents");
+            System.out.println("##################\n");
 
-            // Update the total collected with the price.
-            total = total + price;
-            // Reduce the balance by the price.
-            balance = balance - price;
-        }
-        else {
-            System.out.println("You must insert at least: " +
-                               (price - balance) + " more cents.");
-                    
+            total += price;
+            balance -= price;
+        } else {
+            System.out.println("You must insert " + amountLeftToPay + " more cents.");
         }
     }
 
     /**
-     * Return the money in the balance.
-     * The balance is cleared.
+     * Empty the machine of collected money.
+     * Resets total and returns the amount emptied.
      */
-    public int refundBalance()
-    {
-        int amountToRefund;
-        amountToRefund = balance;
+    public int emptyMachine() {
+        int emptiedAmount = total;
+        total = 0;
+        System.out.println("Machine emptied. Total removed: " + emptiedAmount + " cents.");
+        return emptiedAmount;
+    }
+
+    /**
+     * Refund the balance and reset it to zero.
+     */
+    public int refundBalance() {
+        int refund = balance;
         balance = 0;
-        return amountToRefund;
+        System.out.println("Refunding " + refund + " cents.");
+        return refund;
     }
 }
