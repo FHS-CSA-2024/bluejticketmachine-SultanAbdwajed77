@@ -36,7 +36,6 @@ public class SmarterTicketMachine {
 
     // Method to print a ticket
     public void printTicket() {
-        int amountLeftToPay = price - balance;
         if (balance >= price) {
             // Simulate the printing of a ticket.
             System.out.println("##################");
@@ -51,6 +50,7 @@ public class SmarterTicketMachine {
             // Reduce the balance by the price.
             balance -= price;
         } else {
+            int amountLeftToPay = price - balance;
             System.out.println("You must insert at least: " + amountLeftToPay + " more cents.");
         }
     }
